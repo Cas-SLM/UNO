@@ -1,4 +1,5 @@
 from cards import get_deck
+from game import Game
 from player import Player
 
 
@@ -15,13 +16,12 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     deck = get_deck()
-    i = 1
-    for card in deck:
-        print(f"{i}: " + card.__str__())
-        i += 1
 
     player1 = Player("HUMAN", "HAL")
     player2 = Player("COMPUTER", "HAL")
+    print(f"Player1: {player1}", f"\nPlayer2: {player2}")
+
+    game = Game(player1, player2, deck)
 
 
 
