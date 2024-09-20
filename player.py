@@ -30,13 +30,8 @@ class Player:
         else:
             return f"Player: {self._player_name}"
 
-    @property
-    def __class__(self):
-        return self.__class__
-
     def discard(self):
-        print(f"{self}'s cards:")
-        self.show_hand()
+        # self.show_hand()
         while True:
             try:
                 index = int(input("Which card do you want to place?"))
