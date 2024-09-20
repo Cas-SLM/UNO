@@ -116,3 +116,11 @@ class Card:
         else:
             return f"Card: {self._card_type} {self._color} {self._number}"
 
+    def get_color(self):
+        return self._color
+
+    def get_number(self):
+        return self._number
+
+    def get_card_type(self):
+        return self._card_type
