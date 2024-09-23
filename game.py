@@ -20,7 +20,7 @@ class Game:
     current_player = Player
     winner = Player
 
-    def __init__(self, *players : Player, deck : list[Card]):
+    def __init__(self, deck : list[Card], *players : Player):
        self.deck = deck
        self.players = list(players)
        prev_index = len(players) - 1
@@ -50,7 +50,7 @@ class Game:
         self.discard.append(card)
         while len(self.deck) > 0:
             self.draw.append(self.deck.pop())
-        self.top_card()
+        # self.top_card()
 
     def draw_card(self, player):
         player.add(self.draw.pop())
@@ -61,20 +61,21 @@ class Game:
             self.draw = temp_deck + self.draw
 
     def top_card(self):
-        print(f"Visible card: {self.discard[len(self.discard)-1]}")
+        print(f"Current card: {self.discard[len(self.discard)-1]}")
 
-    def discard_card(self, player : Player):
-        self.discard.append(player.discard())
+    def discard_card(self, player : Player, index : int):
+        self.discard.append(player.discard(index))
         player.show_hand()
 
     def start_game(self):
-        self.current_player = self.players[0]
+        self.current_player = self.players[len(self.players) - 1]
         while True:
-            current_player = self.get_turn_player()
+            self.current_player = self.get_turn_player()
             if self.set_winner():
                 print(f"{self.winner} won the game!")
                 break
-            print(f"{current_player}'s turn")
+            print(f"{self.current_player}'s turn")
+            self.top_card()
             self.play()
 
 
@@ -91,17 +92,27 @@ class Game:
 
     def play(self):
         while True:
-            print("Play options:\n  1: Draw card\n   2: Play card")
+            print("Play options:\n    0: Draw card")
+            index = 1
+            current_hand = self.current_player.get_hand()
+            for card in current_hand:
+                print(f"    {index}: {card}")
+                index += 1
             try:
                 choice = int(input("Enter your choice: "))
-                if choice == 1:
+                if choice == 0:
                     self.draw_card(self.current_player)
                     break
-                elif choice == 2:
-                    self.discard_card(self.current_player)
+                elif 0 < choice < len(current_hand):
+                    self.discard_card(self.current_player, choice - 1)
                     break
+                else:
+                    raise AssertionError
             except ValueError:
                 print("Invalid choice")
+            except AssertionError or IndexError:
+                print("That's not a in the list of cards")
+                self.show_hand()
 
 
     def get_turn_player(self):

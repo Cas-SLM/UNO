@@ -5,7 +5,7 @@ from cards import Card
 class Player:
     _player_type = str
     _player_name = str
-    _hand = [Card]
+    _hand = []
     _status = str
     _next = None
     _previous = None
@@ -20,7 +20,7 @@ class Player:
 
     def __str__(self):
         if self._player_type == "COMPUTER":
-            return self._player_type
+            return f"{self._player_type} - {self._player_name}"
         else:
             return f"{self._player_name}"
 
@@ -30,20 +30,27 @@ class Player:
         else:
             return f"Player: {self._player_name}"
 
-    def discard(self):
-        # self.show_hand()
-        while True:
-            try:
-                index = int(input("Which card do you want to place?"))
-                if 0 < index <= len(self._hand):
-                    return self._hand.pop(index - 1)
-                else:
-                    raise AssertionError("Not enough cards for that number!")
-            except ValueError:
-                print("That's not a number!")
-            except AssertionError or IndexError:
-                print("That's not a in the list of cards")
-                self.show_hand()
+    def discard(self, card_index : int) :
+        """
+        Returns the card the player chooses to play.
+        :param card_index: index of the card to play
+        :return: card that will be played
+        :raises IndexError: if card_index is out of range
+        """
+        self.show_hand()
+        return self._hand.pop(card_index)
+        # while True:
+        #     try:
+        #         index = int(input("Which card do you want to play?"))
+        #         if 0 < index <= len(self._hand):
+        #             return self._hand.pop(index - 1)
+        #         else:
+        #             raise AssertionError("Not enough cards for that number!")
+        #     except ValueError:
+        #         print("That's not a number!")
+        #     except AssertionError or IndexError:
+        #         print("That's not a in the list of cards")
+        #         self.show_hand()
 
     def show_hand(self):
         print(f"{self}'s cards:")
@@ -51,6 +58,9 @@ class Player:
         for card in self._hand:
             print(f"    {index}. {card}")
             index += 1
+
+    def get_hand(self):
+        return self._hand.copy()
 
     def add(self, *cards : Card):
         for card in cards:

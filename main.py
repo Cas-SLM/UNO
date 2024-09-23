@@ -18,10 +18,13 @@ if __name__ == '__main__':
     deck = get_deck()
 
     player1 = Player("HUMAN", "HAL")
-    player2 = Player("COMPUTER", "HAL")
-    print(f"Player1: {player1}", f"\nPlayer2: {player2}")
+    player3 = Player("HUMAN", "Alice")
+    player2 = Player("COMPUTER", "AI_01")
+    player4 = Player("COMPUTER", "AI_02")
+    print(f"Player1: {player1}", f"\nPlayer2: {player2}", f"\nPlayer3: {player3}", f"\nPlayer4: {player4}")
 
-    game = Game(player1, player2, deck)
+    game = Game(deck, player1, player2, player3, player4)
+    game.start_game()
 
 
 
